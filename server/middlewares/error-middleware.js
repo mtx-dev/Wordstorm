@@ -1,4 +1,4 @@
-const ApiError = require('../exeptions/api-errprs');
+const ApiError = require('../exeptions/api-error');
 
 module.exports = function (error, req, res, next) {
     console.log(error);
@@ -6,5 +6,5 @@ module.exports = function (error, req, res, next) {
         return res.status(error.status)
             .json({message: error.message, errors: error.errors});
     }
-    res.status(500).json({message: 'Unexpected: \n' + error.message})
+    res.status(500).json({message: 'Unexpected: ' + error.message})
 }
