@@ -1,5 +1,5 @@
 const userService = require('../service/user-service');
-const {validationResult} = require('express-validator');
+const { validationResult } = require('express-validator');
 const ApiError = require('../exeptions/api-error');
 
 class UserController {
@@ -74,7 +74,6 @@ class UserController {
             next(error);
         }
     }
-
 }
 
 
