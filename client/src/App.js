@@ -1,38 +1,22 @@
 /* eslint-disable no-useless-constructor */
 /*Up an down handlers an data */
-import React from 'react';
-// import {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import Card from './Card';
+
+import Modal from './Modal';
+import LoginForm from './LoginForm';
 
 function App() {
+  const [modalActive, setModalActive] = useState(false);
   return (
       <>
-        <Card />
-        <Card />
-        <Card />
+        <button onClick={() => setModalActive(true)}>modal</button>      
+
+        <Modal active={modalActive}  setActive={setModalActive}> 
+          <LoginForm/>
+        </Modal>
       </>
   );
 }
-
-
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <Mouse 
-//           render= {(data) => {
-//             return (
-//               <p> 
-//                 {data.x}: {data.y}
-//               </p>
-//             );
-//           }}
-//         />
-//       </header>
-//     </div>
-//   );
-// }
 
 export default App;
