@@ -5,8 +5,7 @@ import MainSection from '../sections/MainSection';
 import NotFoundSection from '../sections/NotFoundSection';
 import VocabularySection from '../sections/VocabularySection';
 
-export default function useRoutes(isAuthenticated) {
-    console.log(isAuthenticated);
+export default function useRoutes() {
     return(
         <Routes>  
             <Route path='/user'  element={ <VocabularySection />}>

@@ -1,7 +1,10 @@
 import React from 'react';
+import LoginForm from '../components/LoginForm';
 
 export default function MainSection() {
     return (
-        <div>main</div>
+        <div>main
+        <LoginForm />
+        </div>
     );
 }
