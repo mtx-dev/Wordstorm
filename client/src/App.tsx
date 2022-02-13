@@ -1,21 +1,17 @@
-import React, { createContext, FC } from 'react';
+import React, { FC } from 'react';
 import useRoutes from './hoocks/useRoutes';
 import {BrowserRouter as Router} from 'react-router-dom'
-import './App.css';
-
-// export const Context = createContext({
-//   store,
-// })
+import Provider from './components/Provider';
+import './App.scss';
 
 const  App: FC = () =>  {
   const routes = useRoutes();
   return (
-    <div className="container">
-      <h1>WordStorm</h1>
+    <Provider>
       <Router>
         {routes}
       </Router>
-    </div>
+    </Provider>
   );
 }
 
