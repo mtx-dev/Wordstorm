@@ -1,5 +1,17 @@
 import { createContext } from "react";
+import { IUser } from "../models/IUser";
 
-export const Context = createContext({
-    store: StoreInterface,
-})
+export type AuthInFunc = (email: string, password: string, callback?: VoidFunction) => Promise<void>;
+export type AuthOutFunc = (callback?: VoidFunction) => Promise<void>;
+
+export interface StoreContextType {
+    isLoading: boolean;
+    isAuth: boolean;
+    user: IUser;
+    login: AuthInFunc;
+    registration: AuthInFunc;
+    logout: AuthOutFunc;
+  }
+
+
+export const Context = createContext<StoreContextType>(null!);
