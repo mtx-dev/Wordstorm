@@ -1,7 +1,18 @@
 import React from 'react';
 
-export default function VocabularySection() {
+export default function ScudSection() {
+    const words = useWords();
+    // words from voca
+    // quizes from setings
+
+    // curr = <Quiz words={}/>
     return (
-        <div>scud</div>
+        <div>
+
+            {/* <QuizCard>
+                {currentQuiz}
+            </QuizCard> */}
+
+        </div>
     );
 }
