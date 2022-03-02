@@ -5,6 +5,8 @@ const UserSchema = new Schema({
     password: {type: String, required: true},
     // TODO: realize Activations
     isActivated: {type: Boolean, default: true},
+    // add type record
+    settings: {type: Object, default: {}},
     activationLink: {type: String},
 });
 
