@@ -1,10 +1,12 @@
-import { Context, StoreContextType } from "../context/Context";
-import useVocabulary from "./useVocabulary";
-import Word from '../models/Word';
+import { useContext } from 'react';
+import { Context, StoreContextType } from '../context/Context';
+import { IWord } from '../models/IWord';
+import { filterToStudy } from '../utils/wordUtils';
 
-const useWords = ():Word[] => {
-    const {isAuth, user, login, logout, registration} = useVocabulary<StoreContextType>(Context);
-    return  {isAuth, user, login, logout, registration};
+
+const useWords = ():IWord[] => {
+    const { vocabulary }= useContext<StoreContextType>(Context);
+    return filterToStudy(vocabulary);
 }
 
 export default useWords;
