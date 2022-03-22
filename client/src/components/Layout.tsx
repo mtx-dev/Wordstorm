@@ -23,6 +23,7 @@ export default function Layout() {
             <Navbar.Collapse  id="basic-navbar-nav" className="justify-content-end">
               <Nav className="justify-content-end">
                 <Nav.Link as={Link} to="/" >Home</Nav.Link>
+                <Nav.Link as={Link} to="scud" >Scud</Nav.Link>
                 <Nav.Link as={Link} to="vocabulary" >Vocabulary</Nav.Link>
                 <Nav.Link disabled>|</Nav.Link>
                 <AuthWidget />
