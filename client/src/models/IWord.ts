@@ -1,8 +1,8 @@
 export type WordStatusType = 'unknown' | 'stydy' | 'learned'
 export interface IWord {
     id: number;
-    word: string
-    transaltion: string;
+    word: string;
+    translation: string;
     status: WordStatusType;
     lastSuccessful: Date;
     attempts: number;
