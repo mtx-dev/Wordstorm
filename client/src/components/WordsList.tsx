@@ -1,6 +1,5 @@
 import React from "react";
 import { Stack } from "react-bootstrap";
-import './Quiz.scss';
 
 const WordsList = (
         { children, onClick }: { 
