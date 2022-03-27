@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAsyncEffect from "../hoocks/useAsyncEffect";
-import { Button, Card, Row, Col } from "react-bootstrap";
+import QuizCard from '../components/QuizCard';
+
 import { randomIndex } from "../utils/random";
 import { IQuizProps } from "../models/IQuizProps";
 import { IQuizResult } from '../models/StatisticTypes';
@@ -17,13 +18,21 @@ export default function QuizReverseTranslate({words, next}: IQuizProps): JSX.Ele
     const [pazzleList, setPazzleList] = useState<string[]>([]);
     const [choosenWord, setChoosenWord] = useState('');
     const defaultResults = words.map((word): IQuizResult => {
-            return {
-                wordId: word.id, 
-                success: true,
-            }
-        });
+        return {
+            wordId: word.id, 
+            success: true,
+        }
+    });
     const [results, setResults] = useState<IQuizResult[]>(defaultResults)
+    const [allowNextWord, setAllowNextWord] = useState<boolean>(false);
+    // Rework to return result
     const isAnswerRight = currentWord === choosenWord;
+    
+    useEffect(() => {
+        if (currentWord === choosenWord) {
+            setAllowNextWord(true);
+        }        
+    }, [choosenWord]);
 
     useAsyncEffect(() => {
         const fakeWords = DictionaryServoce
@@ -57,6 +66,7 @@ export default function QuizReverseTranslate({words, next}: IQuizProps): JSX.Ele
             return;
         }
         setChoosenWord('');
+        setAllowNextWord(false);
         setPazzleList([]);
         setCurrentWordIndex(currentWordIndex + 1);
     }
@@ -71,31 +81,15 @@ export default function QuizReverseTranslate({words, next}: IQuizProps): JSX.Ele
     );
 
     return (
-        <Card bg='dark' className='p-3'>
-            <Card.Header>
-                <Row>
-                    <Col>
-                        Translate to Russian
-                    </Col>
-                    <Col md='auto'>
-                        <Button 
-                            variant={isAnswerRight ? 'primary' : 'outline-secondary'}
-                            disabled={!isAnswerRight}
-                            onClick={handleNextWord}
-                        >
-                            next
-                        </Button>
-                    </Col>
-                </Row>
-            </Card.Header>
-            <Card.Body>
-                <Card.Title className='p-2 text-light d-flex justify-content-center'>
-                    {words[currentWordIndex].word}
-                </Card.Title>
-                <WordsList onClick={handleClick}>
-                    {buldList}
-                </WordsList>
-            </Card.Body>
-        </Card>
+        <QuizCard
+            title='Translate to Russian'
+            pazzle={words[currentWordIndex].word}
+            disabledNext={!allowNextWord} 
+            handleNextWord={handleNextWord}
+        >
+            <WordsList onClick={handleClick}>
+                {buldList}
+            </WordsList>
+        </QuizCard>
     );
 }
