@@ -50,22 +50,22 @@ export default function LoginSection(){
     const [show, setShow] = useState(true);
     
     return (
-        <Container className="bg-transparent" >
+        <Container className='bg-transparent' >
             <Row className='text-white-50 justify-content-md-center mt-3'>
                 {(fromPath !== '/') && 'You must log in to view this page'} &nbsp;
             </Row>
             <Form noValidate validated={allowValidation} ref={loginForm}>
-                <Stack gap={2} className="col-md-5 mx-auto">
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Stack gap={2} className='col-md-5 mx-auto'>
+                    <Form.Group className='mb-3' controlId='formBasicEmail'>
                         <Form.Label className='text-white-50'>Email address</Form.Label>
                         <Form.Control 
-                            type="email" 
-                            placeholder="Enter email"
+                            type='email' 
+                            placeholder='Enter email'
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
-                        <Form.Control.Feedback type="invalid">
+                        <Form.Control.Feedback type='invalid'>
                             Incorrect Email.
                         </Form.Control.Feedback>
                         <Form.Control.Feedback>
@@ -73,33 +73,33 @@ export default function LoginSection(){
                         </Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Group className='mb-3' controlId='formBasicPassword'>
                         <Form.Label className='text-white-50'>Password</Form.Label>
                         <Form.Control 
-                            type="password" 
-                            placeholder="Password" 
+                            type='password' 
+                            placeholder='Password' 
                             value={password}
                             onChange={(e) => setPassword(e.target.value)} 
                             required
                             maxLength={14}
                             minLength={6}
                         />
-                        <Form.Control.Feedback type="invalid">
+                        <Form.Control.Feedback type='invalid'>
                             Required
                         </Form.Control.Feedback>
                         <Form.Control.Feedback>
                             Correct
                         </Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label="Remember me" className='text-white-50'/>
+                    <Form.Group className='mb-3' controlId='formBasicCheckbox'>
+                        <Form.Check type='checkbox' label='Remember me' className='text-white-50'/>
                     </Form.Group>
                     <Row>
                         <Col className='d-grid'>
                         <Button 
-                            type="submit"
-                            name="login"
-                            variant="primary" 
+                            type='submit'
+                            name='login'
+                            variant='primary' 
                             onClick={handleAuth}
                         >
                             Login
@@ -107,8 +107,8 @@ export default function LoginSection(){
                     </Col>
                     <Col className='d-grid'>
                         <Button 
-                            type="submit"
-                            name="register"
+                            type='submit'
+                            name='register'
                             variant='outline-primary' 
                             onClick={handleAuth}
                         >
