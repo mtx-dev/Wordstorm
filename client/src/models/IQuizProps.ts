@@ -1,8 +1,7 @@
-import { IWord } from "./IWord";
-import { IQuizResult } from "./StatisticTypes";
-export type NextFunc = (statistic: IQuizResult[]) => void;
+import { IWord } from './IWord';
+export type NextFunc = (result:boolean) => void;
 
 export interface IQuizProps {
-    words: IWord[];
+    pazzleWord: IWord; 
     next: NextFunc;
 }
