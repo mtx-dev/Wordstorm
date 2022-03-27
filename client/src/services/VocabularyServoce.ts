@@ -1,6 +1,6 @@
-import api from "../http";
-import { AxiosResponse } from "axios";
-import { IWord } from "../models/IWord";
+import api from '../http';
+import { AxiosResponse } from 'axios';
+import { IWord } from '../models/IWord';
 
 export default class VocabularyServoce {
     static async getVocabulary(): Promise<AxiosResponse<IWord[]>> {

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Button, Card, Row, Col } from "react-bootstrap";
-import QuizCard from '../components/QuizCard';
+import React, { useState, useEffect } from 'react';
+import { Card } from 'react-bootstrap';
+import QuizCard from '../../common/layout/quizCard/QuizCard';
 
-import { IQuizProps } from "../models/IQuizProps";
-import { IQuizResult } from '../models/StatisticTypes';
-import { shuffle } from "../utils/shuffle";
-import LettersList from "./LettersList";
+import { IQuizProps } from '../../models/IQuizProps';
+import { IQuizResult } from '../../models/StatisticTypes';
+import { shuffle } from '../../utils/shuffle';
+import LettersList from '../../common/layout/lettersList/LettersList';
 
-const skipedChars = [' ', ','];
+import { skipedChars } from '../../constants';
 
 export default function QuizSpell({words, next}: IQuizProps): JSX.Element {
     const [currentWordIndex, setCurrentWordIndex] = useState(0);

@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, Card, Col, Row } from "react-bootstrap";
+import React from 'react';
+import { Button, Card, Col, Row } from 'react-bootstrap';
 
 const QuizCard = ({ children, disabledNext, handleNextWord, title, pazzle }: 
         { 
@@ -11,8 +11,8 @@ const QuizCard = ({ children, disabledNext, handleNextWord, title, pazzle }:
         }) => {
   
     return (
-        <Row className="justify-content-center">
-            <Col className="col-4">
+        <Row className='justify-content-center'>
+            <Col className='col-4'>
             <Card bg='dark' className='p-3'>
                 <Card.Header>
                     <Row>

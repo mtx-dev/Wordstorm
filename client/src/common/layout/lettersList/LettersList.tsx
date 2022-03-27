@@ -1,6 +1,6 @@
-import React from "react";
-import { Col, Row } from "react-bootstrap";
-import LettersListItem from "./LettersListItem";
+import React from 'react';
+import { Col, Row } from 'react-bootstrap';
+import LettersListItem from './LettersListItem';
 
 const LettersList = (
     { list, clickedIndex, currentRightLetter, onClick }: { 
@@ -23,9 +23,9 @@ const LettersList = (
     );
 
     return (
-            <Row className="justify-content-center">
+            <Row className='justify-content-center'>
                 <Col 
-                    className="col-10 d-flex flex-wrap justify-content-center"
+                    className='col-10 d-flex flex-wrap justify-content-center'
                     onClick={onClick}
                 >
                     {buldList}

@@ -1,32 +1,31 @@
-import React, { useEffect, useState } from "react";
-import useAsyncEffect from "../hoocks/useAsyncEffect";
-import QuizCard from '../components/QuizCard';
+import React, { useEffect, useState } from 'react';
+import useAsyncEffect from '../../hoocks/useAsyncEffect';
+import QuizCard from '../../common/layout/quizCard/QuizCard';
 
-import { IQuizProps } from "../models/IQuizProps";
-import { IQuizResult } from '../models/StatisticTypes';
-import { randomIndex } from "../utils/random";
-import WordsList from "./WordsList";
-import WordsListItem from "./WordsListItem";
-import DictionaryServoce from '../services/DictionaryServoce';
+import { randomIndex } from '../../utils/random';
+import { IQuizProps } from '../../models/IQuizProps';
+import { IQuizResult } from '../../models/StatisticTypes';
+import WordsList from '../../common/layout/wordList/WordsList';
+import WordsListItem from '../../common/layout/wordList/WordsListItem';
+import DictionaryServoce from '../../services/DictionaryServoce';
 
-const maxWordsVariants = 4
+import { MAX_WORDS_VARIANTS } from '../../constants';
 
-export default function QuizTranslate({words, next}: IQuizProps): JSX.Element {
+
+export default function QuizReverseTranslate({words, next}: IQuizProps): JSX.Element {
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
-    const currentWord = words[currentWordIndex].word;
+    const currentWord = words[currentWordIndex].translation;
     
     const [pazzleList, setPazzleList] = useState<string[]>([]);
     const [choosenWord, setChoosenWord] = useState('');
-    
     const defaultResults = words.map((word): IQuizResult => {
         return {
-            wordId: word.id,
+            wordId: word.id, 
             success: true,
         }
     });
     const [results, setResults] = useState<IQuizResult[]>(defaultResults)
     const [allowNextWord, setAllowNextWord] = useState<boolean>(false);
-
     // Rework to return result
     const isAnswerRight = currentWord === choosenWord;
     
@@ -38,10 +37,10 @@ export default function QuizTranslate({words, next}: IQuizProps): JSX.Element {
 
     useAsyncEffect(() => {
         const fakeWords = DictionaryServoce
-            .getFakeWords(currentWord)
-            .map(item => item.word);
+            .getFakeTranslationWords(currentWord)
+            .map(item => item.translation);
         const resultList = [...fakeWords];
-        const rightAnswerIndex = randomIndex(maxWordsVariants - 1);
+        const rightAnswerIndex = randomIndex(MAX_WORDS_VARIANTS - 1);
         resultList.splice(rightAnswerIndex, 0, currentWord);
         setPazzleList(resultList);
     }, [currentWordIndex]);
@@ -84,8 +83,8 @@ export default function QuizTranslate({words, next}: IQuizProps): JSX.Element {
 
     return (
         <QuizCard
-            title='Translate to English'
-            pazzle={words[currentWordIndex].translation} 
+            title='Translate to Russian'
+            pazzle={words[currentWordIndex].word}
             disabledNext={!allowNextWord} 
             handleNextWord={handleNextWord}
         >

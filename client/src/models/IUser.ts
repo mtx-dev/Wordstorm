@@ -1,4 +1,4 @@
-import { ISettings } from "./ISettings";
+import { ISettings } from './ISettings';
 
 export interface IUser {
     id:string;

@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { createContext } from 'react';
-import { IUser } from "../models/IUser";
+import { IUser } from '../models/IUser';
 import { IWord } from '../models/IWord';
 
 export type AuthInFunc = (email: string, password: string, callback?: VoidFunction) => Promise<void>;

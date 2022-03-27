@@ -1,9 +1,11 @@
-import React, { useState, FormEvent, useRef } from "react";
-import QuizCard from '../components/QuizCard';
-import { Button, Card, Row, Col, Form } from "react-bootstrap";
-import useAsyncEffect from "../hoocks/useAsyncEffect";
-import { IQuizProps } from "../models/IQuizProps";
-import { IQuizResult } from '../models/StatisticTypes';
+import React, { useState, FormEvent, useRef } from 'react';
+import QuizCard from '../../common/layout/quizCard/QuizCard';
+import { Button, Row, Form } from 'react-bootstrap';
+import useAsyncEffect from '../../hoocks/useAsyncEffect';
+import { IQuizProps } from '../../models/IQuizProps';
+import { IQuizResult } from '../../models/StatisticTypes';
+
+import { skipedChars } from '../../constants';
 
 enum Playback {
     Pending = 'Pending',
@@ -11,8 +13,6 @@ enum Playback {
 	Pause = 'Pause',
 	Resume = 'Resume',
 }
-
-const skipedChars = [' ', ','];
 
 const prepareToCompare = (str: string): string[] => {
     const skippedCharsWithoutSpace = skipedChars.filter(c => c !== ' ');
@@ -134,7 +134,7 @@ export default function QuizListen({words, next}: IQuizProps): JSX.Element {
 
     return (
         <QuizCard
-            title="Listen and write" 
+            title='Listen and write' 
             pazzle={words[currentWordIndex].translation} 
             disabledNext={!allowNextWord} 
             handleNextWord={handleNextWord}
@@ -149,7 +149,7 @@ export default function QuizListen({words, next}: IQuizProps): JSX.Element {
                 </Button>
             </Row>
             <Form onSubmit={handleEnterWord} ref={wordForm}>
-                <Form.Group controlId="answer">
+                <Form.Group controlId='answer'>
                     <Form.Control 
                         type='text' 
                         className={inputClasses.join(' ')} 

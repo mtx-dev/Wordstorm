@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button } from "react-bootstrap";
+import React, { useState } from 'react';
+import { Button } from 'react-bootstrap';
 
 const LettersListItem = ({ index, letter, isMistake, isRight }: 
         { index: number, letter: string, isMistake: boolean; isRight: boolean }) => {

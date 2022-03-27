@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { Context, StoreContextType } from "../context/Context";
+import { useContext } from 'react';
+import { Context, StoreContextType } from '../context/Context';
 
 
 const useVocabulary = ():Partial<StoreContextType> => {

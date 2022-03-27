@@ -1,5 +1,5 @@
-import React from "react";
-import { Stack } from "react-bootstrap";
+import React from 'react';
+import { Stack } from 'react-bootstrap';
 
 const WordsList = (
         { children, onClick }: { 
@@ -8,7 +8,7 @@ const WordsList = (
         }) => {
   
     return (
-        <Stack direction="vertical" gap={3} onClick={onClick}>
+        <Stack direction='vertical' gap={3} onClick={onClick}>
             {children}
         </Stack>
     );

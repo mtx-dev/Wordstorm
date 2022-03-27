@@ -1,5 +1,5 @@
-import axios from "axios";
-import AuthService from "../services/AuthServoce";
+import axios from 'axios';
+import AuthService from '../services/AuthServoce';
 
 export const API_URL = 'http://localhost:5000/api';
 

@@ -1,6 +1,6 @@
-import api from "../http";
-import { AxiosResponse } from "axios";
-import { IDictionaryWord } from "../models/IDictionaryWord";
+import api from '../http';
+import { AxiosResponse } from 'axios';
+import { IDictionaryWord } from '../models/IDictionaryWord';
 
 export default class DictionaryServoce {
     static async search(word: string): Promise<AxiosResponse<IDictionaryWord[]>> {

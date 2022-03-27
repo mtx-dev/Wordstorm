@@ -6,7 +6,7 @@ import MainSection from '../sections/MainSection';
 import VocabularySection from '../sections/VocabularySection';
 import ScudSection from '../sections/ScudSection';
 import Layout from '../components/Layout';
-import RequireAuth from '../components/RequireAuth';
+import RequireAuth from '../components/Auth/RequireAuth';
 import LoginSection from '../sections/LoginSection';
 import NotFoundSection from '../sections/NotFoundSection';
 
@@ -14,17 +14,17 @@ export default function useRoutes() {
     return(
         <Routes>
             <Route element={<Layout />}>
-                <Route path="/" element={<MainSection />}/>
-                <Route path="login" element={<LoginSection />} />
-                <Route path="scud"
+                <Route path='/' element={<MainSection />}/>
+                <Route path='login' element={<LoginSection />} />
+                <Route path='scud'
                     element={<RequireAuth><ScudSection /></RequireAuth>} />
-                <Route path="cabinet"
+                <Route path='cabinet'
                     element={<RequireAuth><CabinetSection /></RequireAuth>} />
-                <Route path="vocabulary"
+                <Route path='vocabulary'
                     element={<RequireAuth><VocabularySection /></RequireAuth>} />
-                <Route path="settings" 
+                <Route path='settings' 
                     element={<RequireAuth><VocabularySection /></RequireAuth>} />
-                <Route path="*" element={<NotFoundSection />} />
+                <Route path='*' element={<NotFoundSection />} />
             </Route>
         </Routes>
     )   
