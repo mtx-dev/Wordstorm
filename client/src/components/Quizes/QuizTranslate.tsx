@@ -11,7 +11,7 @@ import DictionaryServoce from '../../services/DictionaryServoce';
 import { MAX_WORDS_VARIANTS } from '../../constants';
 
 
-export default function QuizTranslate2({pazzleWord, next}: IQuizProps): JSX.Element {
+export default function QuizTranslate({pazzleWord, next}: IQuizProps): JSX.Element {
     
     const [pazzleList, setPazzleList] = useState<string[]>([]);
     const [choosenWord, setChoosenWord] = useState('');

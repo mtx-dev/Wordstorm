@@ -12,71 +12,50 @@ import DictionaryServoce from '../../services/DictionaryServoce';
 import { MAX_WORDS_VARIANTS } from '../../constants';
 
 
-export default function QuizReverseTranslate({words, next}: IQuizProps): JSX.Element {
-    const [currentWordIndex, setCurrentWordIndex] = useState(0);
-    const currentWord = words[currentWordIndex].translation;
-    
+export default function QuizReverseTranslate({pazzleWord, next}: IQuizProps): JSX.Element {
     const [pazzleList, setPazzleList] = useState<string[]>([]);
     const [choosenWord, setChoosenWord] = useState('');
-    const defaultResults = words.map((word): IQuizResult => {
-        return {
-            wordId: word.id, 
-            success: true,
-        }
-    });
-    const [results, setResults] = useState<IQuizResult[]>(defaultResults)
-    const [allowNextWord, setAllowNextWord] = useState<boolean>(false);
-    // Rework to return result
-    const isAnswerRight = currentWord === choosenWord;
+    const [allowNext, setAllowNext] = useState<boolean>(false);
+    const [isAnswerRight, setIsAnswerRight] = useState<boolean>(true);
     
     useEffect(() => {
-        if (currentWord === choosenWord) {
-            setAllowNextWord(true);
+        if (pazzleWord.translation === choosenWord) {
+            setAllowNext(true);
         }        
     }, [choosenWord]);
 
     useAsyncEffect(() => {
         const fakeWords = DictionaryServoce
-            .getFakeTranslationWords(currentWord)
+            .getFakeTranslationWords(pazzleWord.word)
             .map(item => item.translation);
         const resultList = [...fakeWords];
         const rightAnswerIndex = randomIndex(MAX_WORDS_VARIANTS - 1);
-        resultList.splice(rightAnswerIndex, 0, currentWord);
+        resultList.splice(rightAnswerIndex, 0, pazzleWord.translation);
         setPazzleList(resultList);
-    }, [currentWordIndex]);
+    }, []);
 
     const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-        console.log(results);
         const target = e.target as HTMLButtonElement;
         const choosen = target.dataset.value;
         if (choosen) {
-            console.log(choosen, currentWord);
+            console.log(choosen, pazzleWord.word);
             setChoosenWord(choosen);
-            if (results[currentWordIndex].success) {
-                const newResults = [...results];
-                newResults[currentWordIndex].success = currentWord === choosen;
-                setResults(newResults);
+            if (isAnswerRight) {
+				setIsAnswerRight(pazzleWord.translation === choosen)
             }
         }
     };
 
     const handleNextWord = () => {
-        if (currentWordIndex === words.length - 1) {
-            console.log('====', results);
-            // next(results);
-            return;
-        }
-        setChoosenWord('');
-        setAllowNextWord(false);
         setPazzleList([]);
-        setCurrentWordIndex(currentWordIndex + 1);
+		next(isAnswerRight);
     }
 
     const buldList = pazzleList.map((item, index)=>
         <WordsListItem 
             key={index}
             text={item}
-            isRight={item === currentWord}
+            isRight={item === pazzleWord.translation}
             checked={item === choosenWord}
         />
     );
@@ -84,8 +63,8 @@ export default function QuizReverseTranslate({words, next}: IQuizProps): JSX.Ele
     return (
         <QuizCard
             title='Translate to Russian'
-            pazzle={words[currentWordIndex].word}
-            disabledNext={!allowNextWord} 
+            pazzle={pazzleWord.word}
+            disabledNext={!allowNext} 
             handleNextWord={handleNextWord}
         >
             <WordsList onClick={handleClick}>

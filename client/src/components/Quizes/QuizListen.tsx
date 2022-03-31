@@ -3,7 +3,6 @@ import QuizCard from '../../common/layout/quizCard/QuizCard';
 import { Button, Row, Form } from 'react-bootstrap';
 import useAsyncEffect from '../../hoocks/useAsyncEffect';
 import { IQuizProps } from '../../models/IQuizProps';
-import { IQuizResult } from '../../models/StatisticTypes';
 
 import { skipedChars } from '../../constants';
 
@@ -14,7 +13,7 @@ enum Playback {
 	Resume = 'Resume',
 }
 
-const prepareToCompare = (str: string): string[] => {
+const splitByWords = (str: string): string[] => {
     const skippedCharsWithoutSpace = skipedChars.filter(c => c !== ' ');
     const reg = new RegExp(`[${skippedCharsWithoutSpace.join('')}]`, 'g');
     const clearStr = str.replace(reg,'').replace(/\s\s+/g, ' ');
@@ -43,21 +42,21 @@ speech.volume = 1;
 // console.log(voices);
 // console.log(window.speechSynthesis.getVoices());
 
-export default function QuizListen({words, next}: IQuizProps): JSX.Element {
+export default function QuizListen({pazzleWord, next}: IQuizProps): JSX.Element {
     const inputClasses = ['text-light', 'bg-dark', 'border'];
 	const wordForm = useRef<HTMLFormElement>();
-    const [currentWordIndex, setCurrentWordIndex] = useState(0);
-    
-    speech.text = words[currentWordIndex].word;
-    const currentWords = prepareToCompare(words[currentWordIndex].word);
-
     const [playback, setPlaybak] = useState<Playback>(Playback.Pending);
     const [hasVoice, setHasVioce] = useState<boolean>(false);
-    const [allowNextWord, setAllowNextWord] = useState<boolean>(false);
-    const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean>();
+    const [allowNext, setAllowNext] = useState<boolean>(false);
+    const [isAnswerRight, setIsAnswerRight] = useState<boolean>(true);
     
-    inputClasses.push(!allowNextWord ? 'border-secondary' :
-        isAnswerCorrect ? 'border-success' : 'border-danger');
+    speech.text = pazzleWord.word;
+    const splitedPazzle = splitByWords(pazzleWord.word);
+
+    // const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean>();
+    
+    inputClasses.push(!allowNext ? 'border-secondary' 
+            : isAnswerRight ? 'border-success' : 'border-danger');
 
     useAsyncEffect(async() => {
         const voices = await getVoices();
@@ -70,14 +69,6 @@ export default function QuizListen({words, next}: IQuizProps): JSX.Element {
         }
     }, []);
 
-    const defaultResults = words.map((word): IQuizResult => {
-        return {
-            wordId: word.id, 
-            success: true,
-        }
-    });
-    const [results, setResults] = useState<IQuizResult[]>(defaultResults)
-    
     speech.onend = () => { setPlaybak(Playback.Play) }
 
 	const handlePlayback = () => {
@@ -102,41 +93,33 @@ export default function QuizListen({words, next}: IQuizProps): JSX.Element {
 
     const handleEnterWord = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (wordForm.current){
-            setAllowNextWord(true);
-			const answer: string = wordForm.current.answer.value
-                .trim().toLocaleLowerCase();
-            const clearAnswer = prepareToCompare(answer);
-            if (results[currentWordIndex].success) {
-                const newResults = [...results];
-                const result = currentWords.every(
-                    (item, index) => item === clearAnswer[index]
-                );
-                setIsAnswerCorrect(result);
-                newResults[currentWordIndex].success = result;
-                setResults(newResults);
-            }
-		}
+		if (!wordForm.current) return;
+
+        setAllowNext(true);
+        const answer: string = wordForm.current.answer
+            .value.trim().toLocaleLowerCase();
+        const splitedAnswer = splitByWords(answer);
+
+        const result = splitedPazzle.every(
+            (item, index) => item === splitedAnswer[index]
+        );
+
+        if (isAnswerRight) {
+            setIsAnswerRight(result);
+        }
     };
 
     const handleNextWord = () => {
-        if (currentWordIndex === words.length - 1) {
-            console.log('====', results);
-            // next(results);
-            return;
-        }
         setPlaybak(Playback.Play)
-        setIsAnswerCorrect(undefined);
-        setAllowNextWord(false);
-        setCurrentWordIndex(currentWordIndex + 1);
-        wordForm.current.answer.value = '';
+        // wordForm.current.answer.value = '';
+		next(isAnswerRight);
     }
 
     return (
         <QuizCard
             title='Listen and write' 
-            pazzle={words[currentWordIndex].translation} 
-            disabledNext={!allowNextWord} 
+            pazzle={pazzleWord.translation} 
+            disabledNext={!allowNext} 
             handleNextWord={handleNextWord}
         >
             <Row className='p-2 mb-5 text-light d-flex justify-content-center'>
