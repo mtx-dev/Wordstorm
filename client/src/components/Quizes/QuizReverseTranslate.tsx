@@ -3,7 +3,7 @@ import useAsyncEffect from '../../hoocks/useAsyncEffect';
 import QuizCard from '../../common/layout/quizCard/QuizCard';
 
 import { randomIndex } from '../../utils/random';
-import { IQuizProps } from '../../models/IQuizProps';
+import { IQuizProps } from '../../models/IQuiz';
 import { IQuizResult } from '../../models/StatisticTypes';
 import WordsList from '../../common/layout/wordList/WordsList';
 import WordsListItem from '../../common/layout/wordList/WordsListItem';
@@ -32,7 +32,7 @@ export default function QuizReverseTranslate({pazzleWord, next}: IQuizProps): JS
         const rightAnswerIndex = randomIndex(MAX_WORDS_VARIANTS - 1);
         resultList.splice(rightAnswerIndex, 0, pazzleWord.translation);
         setPazzleList(resultList);
-    }, []);
+    }, [pazzleWord.word]);
 
     const handleClick = (e: React.MouseEvent<HTMLElement>) => {
         const target = e.target as HTMLButtonElement;
@@ -47,7 +47,7 @@ export default function QuizReverseTranslate({pazzleWord, next}: IQuizProps): JS
     };
 
     const handleNextWord = () => {
-        setPazzleList([]);
+        // setPazzleList([]);
 		next(isAnswerRight);
     }
 

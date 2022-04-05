@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useAsyncEffect from '../../hoocks/useAsyncEffect';
 import QuizCard from '../../common/layout/quizCard/QuizCard';
 
-import { IQuizProps } from '../../models/IQuizProps';
+import { IQuizProps } from '../../models/IQuiz';
 import { randomIndex } from '../../utils/random';
 import WordsList from '../../common/layout/wordList/WordsList';
 import WordsListItem from '../../common/layout/wordList/WordsListItem';
@@ -33,7 +33,7 @@ export default function QuizTranslate({pazzleWord, next}: IQuizProps): JSX.Eleme
         const rightAnswerIndex = randomIndex(MAX_WORDS_VARIANTS - 1);
         resultList.splice(rightAnswerIndex, 0, pazzleWord.word);
         setPazzleList(resultList);
-    }, []);
+    }, [pazzleWord.word]);
 
     const handleClick = (e: React.MouseEvent<HTMLElement>) => {
         const target = e.target as HTMLButtonElement;
@@ -50,7 +50,7 @@ export default function QuizTranslate({pazzleWord, next}: IQuizProps): JSX.Eleme
     const handleNextWord = () => {
         // setChoosenWord('');
         // setAllowNextWord(false);
-        setPazzleList([]);
+        // setPazzleList([]);
 		next(isAnswerRight);
     }
 

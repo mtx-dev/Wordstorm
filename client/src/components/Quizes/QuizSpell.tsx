@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from 'react-bootstrap';
 import QuizCard from '../../common/layout/quizCard/QuizCard';
 
-import { IQuizProps } from '../../models/IQuizProps';
+import { IQuizProps } from '../../models/IQuiz';
 import { shuffle } from '../../utils/shuffle';
 import LettersList from '../../common/layout/lettersList/LettersList';
 
@@ -22,7 +22,7 @@ export default function QuizSpell({pazzleWord, next}: IQuizProps): JSX.Element {
         const resultList = currentWordLetters
 			.filter((char) => !skipedChars.includes(char));
         setPazzleList(shuffle(resultList));
-    }, []);
+    }, [pazzleWord.word]);
 
     useEffect(() => {
         if (currentRihgtLetterIndex >= currentWordLetters.length) {
@@ -61,6 +61,7 @@ export default function QuizSpell({pazzleWord, next}: IQuizProps): JSX.Element {
         // setCurrentRightLetterIndex(0);
         // setClickedIndex(undefined);
         // setPazzleList([]);
+        // setAllowNext(false);
 		next(isAnswerRight);
     }
 
