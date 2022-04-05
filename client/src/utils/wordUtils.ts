@@ -1,13 +1,14 @@
 import { IWord } from '../models/IWord';
+import { limits }  from '../constants';
+import { skipedChars, maxQuizWords} from '../constants';
 
 const milisecondsOfDay = 1000*60*60*24
-const maxQuizWords = 7;
-const limits: Record<number, number> ={
-    0: 0,
-    1: 2,
-    2: 2,
-    3: 1,
-    4: 0,
+
+export const splitByWords = (str: string): string[] => {
+    const skippedCharsWithoutSpace = skipedChars.filter(c => c !== ' ');
+    const reg = new RegExp(`[${skippedCharsWithoutSpace.join('')}]`, 'g');
+    const clearStr = str.replace(reg,'').replace(/\s\s+/g, ' ');
+    return clearStr.split(' ');
 }
 
 export function filterToStudy(vocabulary: IWord[]): IWord[] {
