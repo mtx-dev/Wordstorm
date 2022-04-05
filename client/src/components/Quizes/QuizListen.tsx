@@ -1,10 +1,9 @@
-import React, { useState, FormEvent, useRef } from 'react';
+import React, { useState, FormEvent, useRef, useEffect } from 'react';
 import QuizCard from '../../common/layout/quizCard/QuizCard';
 import { Button, Row, Form } from 'react-bootstrap';
 import useAsyncEffect from '../../hoocks/useAsyncEffect';
-import { IQuizProps } from '../../models/IQuizProps';
-
-import { skipedChars } from '../../constants';
+import { IQuizProps } from '../../models/IQuiz';
+import { splitByWords } from '../../utils/wordUtils';
 
 enum Playback {
     Pending = 'Pending',
@@ -13,80 +12,96 @@ enum Playback {
 	Resume = 'Resume',
 }
 
-const splitByWords = (str: string): string[] => {
-    const skippedCharsWithoutSpace = skipedChars.filter(c => c !== ' ');
-    const reg = new RegExp(`[${skippedCharsWithoutSpace.join('')}]`, 'g');
-    const clearStr = str.replace(reg,'').replace(/\s\s+/g, ' ');
-    return clearStr.split(' ');
-}
-
-const getVoices = ():  Promise<any[]>  => {
+// rework add event 
+const getVoices = (): Promise<any[]> => {
     return new Promise(resolve => {
-      window.speechSynthesis.onvoiceschanged = _e => {
+        window.speechSynthesis.onvoiceschanged = _e => {
         resolve(window.speechSynthesis.getVoices());
       }
       window.speechSynthesis.getVoices();
     })
   }
+export interface ISpeechConfig {
+    // voice?: SpeechSynthesisVoice;
+    volume?: number;
+    rate?: number;
+    pitch?: number;
+  }
+  
+const config = {} as ISpeechConfig;
+config.rate = 1;
+config.pitch = 1;
+config.volume = 1;
 
-const speech = new SpeechSynthesisUtterance();
-speech.lang = 'en';
-speech.rate = 1;
-speech.pitch = 1;
-speech.volume = 1;
-// let voices = [];
-
-// speech.voice = voices[93];
-// speech.voice = voices[102];
-// console.log(voices?.filter(v=>v.lang==='en'));
-// console.log(voices);
-// console.log(window.speechSynthesis.getVoices());
+const defaultSpeech = (config: ISpeechConfig): SpeechSynthesisUtterance => {
+    const s0 = new SpeechSynthesisUtterance();
+    s0.volume = config.volume;
+    s0.rate = config.rate;
+    s0.pitch = config.pitch;
+    return s0
+}   
 
 export default function QuizListen({pazzleWord, next}: IQuizProps): JSX.Element {
     const inputClasses = ['text-light', 'bg-dark', 'border'];
 	const wordForm = useRef<HTMLFormElement>();
-    const [playback, setPlaybak] = useState<Playback>(Playback.Pending);
+    const [playback, setPlaybak] = useState<Playback>(Playback.Play);
     const [hasVoice, setHasVioce] = useState<boolean>(false);
     const [allowNext, setAllowNext] = useState<boolean>(false);
+    const [isFirstAnswerRight, setIsFirstAnswerRight] = useState<boolean>(false);
     const [isAnswerRight, setIsAnswerRight] = useState<boolean>(true);
-    
+    const [voice, setVoice] = useState<SpeechSynthesisVoice>();
+  
+    const onEnd = () => setPlaybak(Playback.Play);
+    const speechSynth = window.speechSynthesis;
+    const speech = defaultSpeech(config);
     speech.text = pazzleWord.word;
-    const splitedPazzle = splitByWords(pazzleWord.word);
+    speech.voice = voice;
+    speech.onend = onEnd;
 
+
+    const splitedPazzle = splitByWords(pazzleWord.word);
     // const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean>();
-    
+    // console.log(allowNext, isAnswerRight);
+    // console.log(speech);
     inputClasses.push(!allowNext ? 'border-secondary' 
-            : isAnswerRight ? 'border-success' : 'border-danger');
+            : isAnswerRight ? 'border-info border-3' : 'border-danger border-3');
 
     useAsyncEffect(async() => {
-        const voices = await getVoices();
-        console.log('voices', voices);
-        if (!voices[93]) speech.voice = voices[3];
-        else speech.voice = voices[93];
-        if (!!speech.voice) {
+        const voicesTry = speechSynth.getVoices();
+        const voices = voicesTry.length ? voicesTry : await getVoices();
+        // console.log('voices', voices);
+        const voice = voices[93] ? voices[93] : voices[3]; 
+        // console.log(voice);
+        if (!!voice) {
             setHasVioce(true);
+            setVoice(voice)
             setPlaybak(Playback.Play);
         }
     }, []);
 
-    speech.onend = () => { setPlaybak(Playback.Play) }
+    useEffect(()=>{
+        return () => {
+            speech.onend = undefined;
+        }
+    }, []);
 
 	const handlePlayback = () => {
+
 		switch (playback) {
 			case Playback.Play:
-                window.speechSynthesis.speak(speech);
+                speechSynth.speak(speech);
 				setPlaybak(Playback.Pause);
 				break;
 			case Playback.Pause:
-                window.speechSynthesis.pause();
+                speechSynth.pause();
 				setPlaybak(Playback.Resume);
 				break;
 			case Playback.Resume:
-                window.speechSynthesis.resume();
+                speechSynth.resume();
 				setPlaybak(Playback.Play);
 				break;
 			default:
-                window.speechSynthesis.cancel();
+                speechSynth.cancel();
 				break;
 		}
 	}
@@ -95,24 +110,24 @@ export default function QuizListen({pazzleWord, next}: IQuizProps): JSX.Element 
 		e.preventDefault();
 		if (!wordForm.current) return;
 
-        setAllowNext(true);
         const answer: string = wordForm.current.answer
-            .value.trim().toLocaleLowerCase();
+                                .value.trim().toLocaleLowerCase();
         const splitedAnswer = splitByWords(answer);
-
         const result = splitedPazzle.every(
             (item, index) => item === splitedAnswer[index]
         );
-
-        if (isAnswerRight) {
-            setIsAnswerRight(result);
+        setIsAnswerRight(result);
+        if (!allowNext) {
+            setIsFirstAnswerRight(result);
         }
+        setAllowNext(true);
     };
 
     const handleNextWord = () => {
         setPlaybak(Playback.Play)
-        // wordForm.current.answer.value = '';
-		next(isAnswerRight);
+        wordForm.current.answer.value = '';
+        setAllowNext(false);
+		next(isFirstAnswerRight);
     }
 
     return (
@@ -139,6 +154,9 @@ export default function QuizListen({pazzleWord, next}: IQuizProps): JSX.Element 
                     />
                 </Form.Group>
             </Form>
+            <Row className='mt-5 text-secondary text-center'>
+                <small>{speech?.voice?.name}</small>
+            </Row>
         </QuizCard>
     );
 }
