@@ -1,6 +1,6 @@
 import React, { useState, FormEvent, useRef, useEffect } from 'react';
 import QuizCard from '../../common/layout/quizCard/QuizCard';
-import { Button, Row, Form } from 'react-bootstrap';
+import { Button, Row, Form, Card } from 'react-bootstrap';
 import useAsyncEffect from '../../hoocks/useAsyncEffect';
 import { IQuizProps } from '../../models/IQuiz';
 import { splitByWords } from '../../utils/wordUtils';
@@ -22,13 +22,14 @@ const getVoices = (): Promise<any[]> => {
     })
   }
 export interface ISpeechConfig {
-    // voice?: SpeechSynthesisVoice;
+    lang: string;
     volume?: number;
     rate?: number;
     pitch?: number;
   }
   
 const config = {} as ISpeechConfig;
+config.lang='en-GB';
 config.rate = 1;
 config.pitch = 1;
 config.volume = 1;
@@ -57,7 +58,6 @@ export default function QuizListen({pazzleWord, next}: IQuizProps): JSX.Element 
     speech.text = pazzleWord.word;
     speech.voice = voice;
     speech.onend = onEnd;
-
 
     const splitedPazzle = splitByWords(pazzleWord.word);
     // const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean>();
@@ -97,7 +97,7 @@ export default function QuizListen({pazzleWord, next}: IQuizProps): JSX.Element 
 				setPlaybak(Playback.Resume);
 				break;
 			case Playback.Resume:
-                speechSynth.resume();
+                speechSynth.cancel();
 				setPlaybak(Playback.Play);
 				break;
 			default:
@@ -137,7 +137,7 @@ export default function QuizListen({pazzleWord, next}: IQuizProps): JSX.Element 
             disabledNext={!allowNext} 
             handleNextWord={handleNextWord}
         >
-            <Row className='p-2 mb-5 text-light d-flex justify-content-center'>
+            <Row className='p-2 text-light d-flex justify-content-center'>
                 <Button 
                     variant='primary' 
                     onClick={handlePlayback} 
@@ -146,6 +146,9 @@ export default function QuizListen({pazzleWord, next}: IQuizProps): JSX.Element 
                     {playback}
                 </Button>
             </Row>
+            <Card.Title className='p-2 text-primary d-flex justify-content-center height40'>
+                {allowNext && pazzleWord.word}
+            </Card.Title>
             <Form onSubmit={handleEnterWord} ref={wordForm}>
                 <Form.Group controlId='answer'>
                     <Form.Control 
