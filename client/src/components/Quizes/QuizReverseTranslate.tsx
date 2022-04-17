@@ -4,7 +4,6 @@ import QuizCard from '../../common/layout/quizCard/QuizCard';
 
 import { randomIndex } from '../../utils/random';
 import { IQuizProps } from '../../models/IQuiz';
-import { IQuizResult } from '../../models/StatisticTypes';
 import WordsList from '../../common/layout/wordList/WordsList';
 import WordsListItem from '../../common/layout/wordList/WordsListItem';
 import DictionaryServoce from '../../services/DictionaryServoce';
