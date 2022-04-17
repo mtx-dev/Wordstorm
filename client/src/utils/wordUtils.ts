@@ -15,13 +15,14 @@ export function filterToStudy(vocabulary: IWord[]): IWord[] {
     const counters: number[] = [0, 0, 0, 0, 0];
     const currentDate = new Date();
 
-    const allows: IWord[] = vocabulary.filter((w:IWord) => {
-        if (!w.active || w.status !== 'learned') return false;
-    })
-
+    const allows: IWord[] = vocabulary.filter((w) => {
+        if (!w.active || w.status === 'learned') return false;
+        return true;
+    });
     const actuals = allows.filter((w)=> {
+        const lastSuccessful = new Date(w.lastSuccessful);
         const daysPassed = Math.abs(Math.round(
-            (currentDate.getTime() - w.lastSuccessful.getTime())/milisecondsOfDay
+            (currentDate.getTime() - lastSuccessful.getTime())/milisecondsOfDay
         ));
         switch (w.successfulAttempts) {
             case 1:
@@ -34,7 +35,6 @@ export function filterToStudy(vocabulary: IWord[]): IWord[] {
                 return false;
         }
     });
-
     const resultWords = actuals.reduce((limitedWords, w) => {
         counters[w.successfulAttempts] += 1;
         if (counters[w.successfulAttempts] >
@@ -45,10 +45,9 @@ export function filterToStudy(vocabulary: IWord[]): IWord[] {
         return limitedWords 
     },[]);
 
-    const additionNewWords = actuals
+    const additionNewWords = allows
         .filter((w)=> w.successfulAttempts === 0)
-        .slice(0,resultWords.length - maxQuizWords)
-
+        .slice(0, maxQuizWords - resultWords.length);
     resultWords.push(...additionNewWords);
 	return resultWords;
 }
