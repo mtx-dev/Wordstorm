@@ -3,35 +3,8 @@ import useAsyncEffect from '../hoocks/useAsyncEffect';
 import useQuizes from '../hoocks/useQuizes';
 import useStatistic from '../hoocks/useStatistic';
 import useWords from '../hoocks/useWords';
-import { IWord } from '../models/IWord';
 import { shuffle } from '../utils/shuffle';
 
-const words: IWord[] = [
-    {id: 1, word: 'home,   house', 
-    translation: 'dom1', 
-    status: 'stydy', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,},
-    {id: 2, word: 'house', 
-    translation: 'dom2', 
-    status: 'stydy', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,},
-    {id: 3, word: 'cabin', 
-    translation: 'dom3', 
-    status: 'stydy', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,},
-    {id: 4, word: 'appartaments', 
-    translation: 'dom4', 
-    status: 'stydy', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,},
-    {id: 5, word: 'hostel', 
-    translation: 'dom5', 
-    status: 'stydy', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,},
-    {id: 6, word: 'hotel', 
-    translation: 'dom6', 
-    status: 'stydy', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,},
-    {id: 7, word: 'cotage', 
-    translation: 'dom7', 
-    status: 'stydy', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,},
-    {id: 8, word: 'villa', 
-    translation: 'dom8', 
-    status: 'stydy', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,},
-];
 enum Status {
     Start,
     Play,
@@ -40,7 +13,7 @@ enum Status {
 
 export default function ScudSection() {
 
-    // const words = useWords();
+    const words = useWords();
     const quizes = useQuizes();
 
     const { saveStatistic } = useStatistic();
@@ -57,7 +30,7 @@ export default function ScudSection() {
     const [statstic, setStatistic] = useState(defaultStatistic);
 
     const handleNext = (result: boolean) => {       
-        const wordId =pazzleWords[currentWordIndex].id; 
+        const wordId = pazzleWords[currentWordIndex].id; 
         if (statstic[wordId]) {
             const newResults = {...statstic};
             newResults[wordId] = result;
