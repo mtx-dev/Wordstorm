@@ -7,8 +7,8 @@ export type AuthInFunc = (email: string, password: string, callback?: VoidFuncti
 export type AuthOutFunc = (callback?: VoidFunction) => Promise<void>;
 export type SaveStatFunc = (statistc: IWord[]) => Promise<void>;
 export type GetVocabularyFunc = () => Promise<void>;
-export type AddWordFunc = (word: string, translation: string) => Promise<AxiosResponse<IWord>>;
-export type DisableWordFunc = (word: IWord) => Promise<AxiosResponse<IWord>>;
+export type AddWordFunc = (word: string, translation: string) => Promise<void>;
+export type DisableWordFunc = (word: IWord) => Promise<void>;
 
 export interface StoreContextType {
     isLoading: boolean;
