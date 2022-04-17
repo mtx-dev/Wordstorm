@@ -1,5 +1,6 @@
 // @import "bootstrap/scss/variables";
 @import "~bootstrap/scss/bootstrap";
+$input-bg: transparent;
 
 .App {
   text-align: center;
@@ -8,6 +9,28 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+.form-control {
+  background-color: transparent !important;
+  color: aliceblue !important;
+}
+
+.word-item {
+  color: aliceblue !important;
+  background-color: transparent !important;
+}
+
+.word-item:hover {
+  background-color: #fafafa25 !important;
+}
+
+.word-item.disable{
+  color: rgb(157, 162, 167) !important;
+}
+
+.word-item.disable:hover{
+  background-color: #fafafa09 !important;
 }
 
 @media (prefers-reduced-motion: no-preference) {
