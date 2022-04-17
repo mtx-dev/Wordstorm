@@ -6,14 +6,51 @@ import { Context } from '../context/Context';
 import { IUser } from '../models/IUser';
 import { IWord } from '../models/IWord';
 import { StoreContextType } from '../context/Context';
-import VocabularyServoce from '../services/VocabularyServoce';
+import VocabularyServoce from '../services/VocabularyService';
+
+const u = {
+    id:'idetrid',
+    email: 'ggg@gg@.com',
+    isActivated: true,
+    settings: {}
+}
+
+const words: IWord[] = [
+    {id: 1, word: 'home,   house', 
+    translation: 'dom1', 
+    status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,},
+    {id: 2, word: 'house', 
+    translation: 'dom2', 
+    status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 1,  active: true,},
+    {id: 3, word: 'cabin', 
+    translation: 'dom3', 
+    status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 2,  active: true,},
+    {id: 4, word: 'appartaments', 
+    translation: 'dom4', 
+    status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 3,  active: true,},
+    {id: 5, word: 'hostel', 
+    translation: 'dom5', 
+    status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 2,  active: true,},
+    {id: 6, word: 'hotel', 
+    translation: 'dom6', 
+    status: 'learned', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,},
+    {id: 7, word: 'cotage', 
+    translation: 'dom7', 
+    status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,},
+    {id: 8, word: 'villa', 
+    translation: 'dom8', 
+    status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,},
+    {id: 9, word: 'unactive', 
+    translation: 'dom9', 
+    status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: false,},
+];
 
 export default function Provider(
         { children }: { children: React.ReactNode }
     ) {
 
     const [user, setUser] = useState<IUser>({} as IUser);
-    const [vocabulary, setVocabulary] = useState<IWord[]>([]);
+    const [vocabulary, setVocabulary] = useState<IWord[]>(words);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isAuth, setIsAuth] = useState<boolean>(false);
 
@@ -35,10 +72,12 @@ export default function Provider(
     const login = async (email: string, password: string, callback = () => {}) => {
         try {
             // TODO Add error connection
-            const response = await AuthService.login(email, password);
-            localStorage.setItem('token', response.data.accessToken);
+            // const response = await AuthService.login(email, password);
+            // localStorage.setItem('token', response.data.accessToken);
             setIsAuth(true);
-            setUser(response.data.user);
+            console.log('set user');
+            setUser(u as IUser);
+            // setUser(response.data.user);
             await getVocabulary();
             callback();
         } catch (error: any) {
@@ -83,19 +122,29 @@ export default function Provider(
 
     const getVocabulary = async () => {
         try {
-            const response = await VocabularyServoce.getVocabulary();
-            setVocabulary(response.data);
+            setVocabulary(words);
+            // const response = await VocabularyServoce.getVocabulary();
+            // setVocabulary(response.data);
         } catch (error: any) {
             console.log(error.response?.data?.message);
         }
     };
 
     const addWord = async (word: string, translation: string) => {
-        return await VocabularyServoce.addWord(word, translation);
+        try {
+            // const response = await VocabularyServoce.addWord(word, translation);
+            const data: IWord = {id: 10, word, translation, 
+                status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: false,} ;
+            const newVocabulary = [...vocabulary, data];
+            console.log(newVocabulary);
+            setVocabulary(newVocabulary);
+        } catch (error: any) {
+            console.log(error.response?.data?.message);
+        }
     };
 
     const disableWord = async (word: IWord) => {
-        return await VocabularyServoce.updateWord({...word, active: false})
+        await VocabularyServoce.updateWord({...word, active: false})
     };
 
     const value: StoreContextType = { 
