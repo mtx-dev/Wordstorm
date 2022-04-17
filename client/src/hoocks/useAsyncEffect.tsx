@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 function useAsyncEffect(
-        effect:() => void, 
+        effect:() => Promise<void> | void, 
         destroy?: any[] | (() => void), 
         dependencies?: any[]
     ) {
