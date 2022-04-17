@@ -1,4 +1,4 @@
-export type WordStatusType = 'unknown' | 'stydy' | 'learned'
+export type WordStatusType = 'unknown' | 'study' | 'learned'
 export interface IWord {
     id: number;
     word: string;
