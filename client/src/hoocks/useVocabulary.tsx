@@ -3,8 +3,8 @@ import { Context, StoreContextType } from '../context/Context';
 
 
 const useVocabulary = ():Partial<StoreContextType> => {
-    const { vocabulary } = useContext<StoreContextType>(Context);
-    return  { vocabulary };
+    const { vocabulary, addWord, disableWord } = useContext<StoreContextType>(Context);
+    return { vocabulary, addWord, disableWord };
 }
 
 export default useVocabulary;
