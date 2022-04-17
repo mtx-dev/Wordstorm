@@ -27,6 +27,16 @@ export default class DictionaryServoce {
         // return api.get<IDictionaryWord[]>('/dictionaryary/fakeTranslation', {params: {word}});
     }
 
+    
+	static  getTranslations(word: string): IDictionaryWord[] {
+        const fakeWords: IDictionaryWord[] = [
+            { id: 23, word: 'ad1', translation: 'rusadd1' },
+            { id: 22, word: 'ad2', translation: 'rusadd2' },
+            { id: 21, word: 'add3', translation: 'rusadd3' },
+        ]; 
+        return fakeWords;
+        // return api.get<IDictionaryWord[]>('/dictionaryary/fakeTranslation', {params: {word}});
+    }
 
     
 }
