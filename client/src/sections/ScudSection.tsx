@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import useAsyncEffect from '../hoocks/useAsyncEffect';
 import useQuizes from '../hoocks/useQuizes';
 import useStatistic from '../hoocks/useStatistic';
-import useWords from '../hoocks/useWords';
+import useVocabulary from '../hoocks/useVocabulary';
 import { shuffle } from '../utils/shuffle';
+import { filterToStudy } from '../utils/wordUtils';
 
 enum Status {
     Start,
@@ -12,10 +13,9 @@ enum Status {
 }
 
 export default function ScudSection() {
-
-    const words = useWords();
+    const { vocabulary } = useVocabulary();
+    const words = filterToStudy(vocabulary)
     const quizes = useQuizes();
-
     const { saveStatistic } = useStatistic();
     const defaultStatistic = words.reduce((result, word) => {
         result[word.id] = true;
@@ -36,7 +36,11 @@ export default function ScudSection() {
             newResults[wordId] = result;
             setStatistic(newResults);
         }
-
+        if (currentQuizIndex === quizes.length - 1 
+            && currentWordIndex === words.length - 1) {
+            setIsFinish(true);
+            return;
+        }
         if (currentWordIndex === words.length - 1) {
             setPazzleWords(shuffle(pazzleWords));
             setCurrentWordIndex(0);
@@ -45,12 +49,6 @@ export default function ScudSection() {
         }
         setCurrentWordIndex(currentWordIndex + 1);      
     }
-
-    useEffect(()=>{
-        if (currentQuizIndex === quizes.length - 1) {
-            setIsFinish(true);
-        }
-    }, [currentQuizIndex])
 
     useAsyncEffect(async () => {
         if (!isFinish) return;
