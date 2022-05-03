@@ -18,7 +18,7 @@ export default function AuthWidget() {
     }
     
     return (
-      <NavDropdown title='User' id='basic-nav-dropdown' menuVariant='dark'>
+      <NavDropdown title='User' id='basic-nav-dropdown' menuVariant='dark' align='end'>
         <NavDropdown.Item as={Link} to='/cabinet'>
           Cabinet
         </NavDropdown.Item>
