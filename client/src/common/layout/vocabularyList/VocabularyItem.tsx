@@ -10,12 +10,18 @@ const levels = [
     <Reception3 color="royalblue" size={32}/>,
 ];
 
-export default function VocabularyItem({ wordItem }: { wordItem: IWord }) {
+export default function VocabularyItem({ wordItem, onChangeActive }: 
+        { wordItem: IWord; onChangeActive: (id: number, active: boolean) => void}) {
     const itemClasses = ['word-item'];
     if (!wordItem.active) itemClasses.push('disable');
     const status = wordItem.status === 'learned' 
         ? <CheckLg color="royalblue" size={32} />
         : levels[wordItem.successfulAttempts];
+    const handleSwitch = (e: React.SyntheticEvent) => {
+        const target = e.target as HTMLInputElement;
+        onChangeActive(wordItem.id, target.checked);
+    }
+
     return (
         <ListGroup.Item className={itemClasses.join(' ')}>
             <Row className='align-items-center'>
@@ -41,6 +47,7 @@ export default function VocabularyItem({ wordItem }: { wordItem: IWord }) {
                                     type="checkbox" 
                                     role="switch" 
                                     id="flexSwitchCheckDefault" 
+                                    onChange={handleSwitch}
                                     defaultChecked={wordItem.active}
                                 />
                             </div>
