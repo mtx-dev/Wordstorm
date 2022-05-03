@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 import useAuth from '../../hoocks/useAuth';
+// TODO Lost login when go to 404
 
 const RequireAuth = ({ children }: { children: JSX.Element }) => {
     const auth = useAuth();
