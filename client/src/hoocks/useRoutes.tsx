@@ -1,13 +1,15 @@
 import React from 'react';
 import {Routes, Route} from 'react-router-dom';
-import CabinetSection from '../sections/CabinetSection';
-import MainSection from '../sections/MainSection';
-// import NotFoundSection from '../sections/NotFoundSection';
-import VocabularySection from '../sections/VocabularySection';
-import ScudSection from '../sections/ScudSection';
 import Layout from '../components/Layout';
-import RequireAuth from '../components/Auth/RequireAuth';
+
+import MainSection from '../sections/MainSection';
+import ScudSection from '../sections/ScudSection';
+import CabinetSection from '../sections/CabinetSection';
+import SettingsSection from '../sections/SettingsSection';
 import LoginSection from '../sections/LoginSection';
+import VocabularySection from '../sections/VocabularySection';
+
+import RequireAuth from '../components/Auth/RequireAuth';
 import NotFoundSection from '../sections/NotFoundSection';
 
 export default function useRoutes() {
@@ -23,7 +25,7 @@ export default function useRoutes() {
                 <Route path='vocabulary'
                     element={<RequireAuth><VocabularySection /></RequireAuth>} />
                 <Route path='settings' 
-                    element={<RequireAuth><VocabularySection /></RequireAuth>} />
+                    element={<RequireAuth><SettingsSection /></RequireAuth>} />
                 <Route path='*' element={<NotFoundSection />} />
             </Route>
         </Routes>
