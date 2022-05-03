@@ -7,7 +7,7 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 export default function Layout() {
     const { isLoading } = useContext<StoreContextType>(Context);
     return (
-      <div>
+      <>
         <Navbar bg='dark' variant='dark' expand='lg'>
           <Container>
             <Navbar.Brand href='/'>
@@ -31,10 +31,10 @@ export default function Layout() {
             </Navbar.Collapse>
           </Container>
         </Navbar>
-          <Container  className='text-white-50'>
+          <Container  className='text-white-50 flex-grow-1 d-flex flex-column'>
             {isLoading && 'LOADING'}
             <Outlet />
           </Container>
-      </div>
+      </>
     );
   }
