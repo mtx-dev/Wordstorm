@@ -12,7 +12,14 @@ const u = {
     id:'idetrid',
     email: 'ggg@gg@.com',
     isActivated: true,
-    settings: {}
+    settings: {
+        quizes: [
+            'Translate',
+            'ReverseTranslate',
+            'Listen',
+            'Spell',
+        ]
+    }
 }
 
 const words: IWord[] = [
@@ -77,6 +84,7 @@ export default function Provider(
             setIsAuth(true);
             console.log('set user');
             setUser(u as IUser);
+            console.log(u);
             // setUser(response.data.user);
             await getVocabulary();
             callback();
@@ -134,8 +142,8 @@ export default function Provider(
         try {
             // const response = await VocabularyServoce.addWord(word, translation);
             const data: IWord = {id: 10, word, translation, 
-                status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: false,} ;
-            const newVocabulary = [...vocabulary, data];
+                status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,} ;
+            const newVocabulary = [data, ...vocabulary];
             console.log(newVocabulary);
             setVocabulary(newVocabulary);
         } catch (error: any) {
@@ -143,8 +151,19 @@ export default function Provider(
         }
     };
 
-    const disableWord = async (word: IWord) => {
-        await VocabularyServoce.updateWord({...word, active: false})
+    const setWordActive = async (id: IWord['id'], active: boolean) => {
+        try {
+            const newVocabulary = [...vocabulary];
+            const wordIndex = newVocabulary.findIndex((item) => item.id === id);
+            newVocabulary[wordIndex].active = active;
+            const word = newVocabulary[wordIndex];
+            // await VocabularyServoce.updateWord({...word, active})
+    
+            console.log(newVocabulary);
+            setVocabulary(newVocabulary);
+        } catch (error: any) {
+            console.log(error.response?.data?.message);
+        }
     };
 
     const value: StoreContextType = { 
@@ -158,7 +177,7 @@ export default function Provider(
         saveStatistic,
         getVocabulary,
         addWord,
-        disableWord,
+        setWordActive,
     };
 
     return (
