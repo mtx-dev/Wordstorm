@@ -11,7 +11,7 @@ import DictionaryServoce from '../services/DictionaryServoce';
 import DictionaryList from '../common/layout/dictionaryList/DictionaryList';
 
 export default function VocabularySection() {
-    const {vocabulary, addWord} = useVocabulary();
+    const {vocabulary, addWord, setWordActive} = useVocabulary();
     const [isAddMode, setIsAddMode] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [search, setSearch] = useState('');
@@ -86,6 +86,10 @@ export default function VocabularySection() {
         setFiltredDictionaryList([])
     }, [search, isAddMode, isChoosen]);
 
+    const onChangeActive = (id: IWord['id'], active: boolean) => {
+        setWordActive(id, active);
+    }
+    
     return (
         <Container className='container-sm p-2'>
             <Form className=" mb-3">
@@ -134,7 +138,10 @@ export default function VocabularySection() {
                             dicList={filtredDictionaryList} 
                             onClick={handleDictionaryChoice}
                         /> 
-                : <VocabularyList wordsList={filtredVocabularyList}/>
+                : <VocabularyList 
+                    wordsList={filtredVocabularyList}
+                    onChangeActive={onChangeActive}
+                    />
             }
         </Container>
     );
