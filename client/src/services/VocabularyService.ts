@@ -17,6 +17,6 @@ export default class VocabularyService {
     }
 
 	static async updateWords(words: IWord[]): Promise<AxiosResponse<IWord[]>> {
-        return api.post<IWord[]>('/vocabulary/update', words);
+        return api.post<IWord[]>('/vocabulary/updates', words);
     }
 }
