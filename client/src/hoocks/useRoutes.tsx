@@ -1,5 +1,5 @@
 import React from 'react';
-import {Routes, Route} from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Layout from '../components/Layout';
 
 import MainSection from '../sections/MainSection';
@@ -26,6 +26,7 @@ export default function useRoutes() {
                     element={<RequireAuth><VocabularySection /></RequireAuth>} />
                 <Route path='settings' 
                     element={<RequireAuth><SettingsSection /></RequireAuth>} />
+
                 <Route path='*' element={<NotFoundSection />} />
             </Route>
         </Routes>

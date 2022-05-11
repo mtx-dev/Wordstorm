@@ -2,7 +2,6 @@ import api from '../http';
 import { AxiosResponse } from 'axios';
 import { IWord } from '../models/IWord';
 
-
 export default class VocabularyService {
     static async getVocabulary(): Promise<AxiosResponse<IWord[]>> {
         return api.get<IWord[]>('/vocabulary');

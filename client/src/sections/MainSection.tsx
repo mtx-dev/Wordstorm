@@ -2,7 +2,6 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { Button, Col } from 'react-bootstrap';
 
-
 export default function MainSection() {
     const navigate = useNavigate();
     const handleStart = () => navigate("/scud");

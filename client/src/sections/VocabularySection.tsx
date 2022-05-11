@@ -72,8 +72,6 @@ export default function VocabularySection() {
     }, [search, isAddMode]);
 
     useAsyncEffect(async () => {
-        // console.log('searchisAddModeisChoosen', !search || !isAddMode || !isChoosen);
-        // console.log('searchisAddModeisChoosen', search , isAddMode , isChoosen);
         if (!search || !isAddMode || !isChoosen) return;
         console.log('add2');
         setIsLoading(true);
