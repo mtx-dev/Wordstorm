@@ -12,10 +12,10 @@ export default class VocabularyService {
     }
 
 	static async updateWord(word: IWord): Promise<AxiosResponse<IWord>> {
-        return api.post<IWord>('/vocabulary/update', {word});
+        return api.patch<IWord>('/vocabulary/update', {word});
     }
 
 	static async updateWords(words: IWord[]): Promise<AxiosResponse<IWord[]>> {
-        return api.post<IWord[]>('/vocabulary/updates', words);
+        return api.put<IWord[]>('/vocabulary/updates', {words});
     }
 }
