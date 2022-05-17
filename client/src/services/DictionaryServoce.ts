@@ -4,7 +4,7 @@ import { IDictionaryWord } from '../models/IDictionaryWord';
 
 export default class DictionaryServoce {
     static async search(word: string): Promise<AxiosResponse<IDictionaryWord[]>> {
-        return api.get<IDictionaryWord[]>('/dictionaryary/search', {params: {word}});
+        return api.get<IDictionaryWord[]>('/dictionaryary/search', {params: {word}})
     }
 
 	static  getFakeWords(word: string): IDictionaryWord[] {
@@ -14,7 +14,7 @@ export default class DictionaryServoce {
             { id: 21, word: 'done', translation: '' },
         ]; 
         return fakeWords;
-        // return api.get<IDictionaryWord[]>('/dictionaryary/fake', {params: {word}});
+        // return api.get<IDictionaryWord[]>('/dictionaryary/fake-words', {params: {word}});
     }
 
 	static  getFakeTranslationWords(word: string): IDictionaryWord[] {
@@ -24,19 +24,7 @@ export default class DictionaryServoce {
             { id: 21, word: 'done', translation: 'rus3' },
         ]; 
         return fakeWords;
-        // return api.get<IDictionaryWord[]>('/dictionaryary/fakeTranslation', {params: {word}});
+        // return api.get<IDictionaryWord[]>('/dictionaryary/fake-translations', {params: {word}});
     }
-
-    
-	static  getTranslations(word: string): IDictionaryWord[] {
-        const fakeWords: IDictionaryWord[] = [
-            { id: 23, word: 'ad1', translation: 'rusadd1' },
-            { id: 22, word: 'ad2', translation: 'rusadd2' },
-            { id: 21, word: 'add3', translation: 'rusadd3' },
-        ]; 
-        return fakeWords;
-        // return api.get<IDictionaryWord[]>('/dictionaryary/fakeTranslation', {params: {word}});
-    }
-
     
 }
