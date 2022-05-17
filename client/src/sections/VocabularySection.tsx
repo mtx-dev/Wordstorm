@@ -57,8 +57,9 @@ export default function VocabularySection() {
     
     const dictionarySearch = async(str:string) => {
         console.log('dictionarySearch', str);
-        const suggestions = await DictionaryServoce.getTranslations(str)
-        setFiltredDictionaryList(suggestions);
+        const response = await DictionaryServoce.search(str);
+        // TODO Add error when no data;
+        setFiltredDictionaryList(response.data);
     }
     const debouncedDictionarySearch = useDebounce(dictionarySearch, 400);
     
