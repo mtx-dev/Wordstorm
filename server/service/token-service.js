@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const tokenModel = require('../models/tokenmodel');
+const tokenModel = require('../models/tokenModel');
 
 class TokenService {
     generateTokens(payload) {
