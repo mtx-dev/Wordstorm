@@ -2,7 +2,8 @@ const {Schema, model} = require('mongoose');
 
 const DictionarySchema = new Schema({
     word: {type: String, unique: true, required: true},
-    translation: {type: String, required: true},
+    translations: [{ type: String }],
 });
 
-module.exports = model('Dictionary', DictionarySchema);
+export const EngDictionaryModel = model('Dictionary', DictionarySchema, ENGLISH_DICTIONARY_COLLECTION);
+export const RusDictionaryModel = model('Dictionary', DictionarySchema, RUSSIAN_DICTIONARY_COLLECTION);
