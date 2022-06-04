@@ -9,13 +9,12 @@ class DictionaryController {
             if(!errors.isEmpty()) {
                 return next(ApiError.BadRequest('Error validation', errors));
             }
-            const {email, password} = req.body;
-            const userData = await userService.registration(email, password);
+            const {search} = req.query;
+            const searchResluts = await dictionaryService.search(search);
 
-            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 3600 * 1000, httpOnly: true})
-            console.log('======== reg');
+            console.log('======== search', req, searchResluts);
 
-            return res.json(userData);
+            return res.json(searchResluts);
         } catch(error) {
             next(error);
         }
@@ -24,12 +23,11 @@ class DictionaryController {
     async fakeWords(req, res, next) {
         try {
 			// TODO cheack on norm str
+            const {search} = req.query;
 
-            // const {email, password} = req.body;
-            // const userData = await userService.login(email, password);
-            // res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 3600 * 1000, httpOnly: true})
-            // console.log('======== login');
-            // return res.json(userData);
+            const searchResluts = await dictionaryService.fakeWords(search);
+            console.log('======== fakeWords', searchResluts);
+            return res.json(searchResluts);
         } catch(error) {
             next(error);
         }
@@ -37,13 +35,10 @@ class DictionaryController {
 
     async fakeTranslations(req, res, next) {
         try {
-			// TODO cheack on norm str
-
-            // const {refreshToken} = req.cookies;
-            // const token = await userService.logout(refreshToken);
-            // res.clearCookie('refreshToken');
-            // console.log('======== logout');
-            // res.json(token);
+            const {search} = req.query;
+            const searchResluts = await dictionaryService.fakeTranslations(search);
+            console.log('======== fakeTranslations',search, searchResluts );
+            res.json(searchResluts);
         } catch(error) {
             next(error);
         }
