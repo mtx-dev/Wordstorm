@@ -24,9 +24,10 @@ export default function QuizReverseTranslate({pazzleWord, next}: IQuizProps): JS
     }, [choosenWord]);
 
     useAsyncEffect(() => {
+        // TODO rework to just words array
         const fakeWords = DictionaryServoce
             .getFakeTranslationWords(pazzleWord.word)
-            .map(item => item.translation);
+            .map(item => item.translations[0]);
         const resultList = [...fakeWords];
         const rightAnswerIndex = randomIndex(MAX_WORDS_VARIANTS - 1);
         resultList.splice(rightAnswerIndex, 0, pazzleWord.translation);

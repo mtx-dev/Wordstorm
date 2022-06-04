@@ -9,9 +9,9 @@ export default class DictionaryServoce {
 
 	static  getFakeWords(word: string): IDictionaryWord[] {
         const fakeWords: IDictionaryWord[] = [
-            { id: 23, word: 'hole', translation: '' },
-            { id: 22, word: 'milk', translation: '' },
-            { id: 21, word: 'done', translation: '' },
+            { id: '23', word: 'hole', translations: [''] },
+            { id: '22', word: 'milk', translations: [''] },
+            { id: '21', word: 'done', translations: [''] },
         ]; 
         return fakeWords;
         // return api.get<IDictionaryWord[]>('/dictionaryary/fake-words', {params: {word}});
@@ -19,9 +19,9 @@ export default class DictionaryServoce {
 
 	static  getFakeTranslationWords(word: string): IDictionaryWord[] {
         const fakeWords: IDictionaryWord[] = [
-            { id: 23, word: 'hole', translation: 'rus1' },
-            { id: 22, word: 'milk', translation: 'rus2' },
-            { id: 21, word: 'done', translation: 'rus3' },
+            { id: '23', word: 'hole', translations: ['rus1'] },
+            { id: '22', word: 'milk', translations: ['rus2'] },
+            { id: '21', word: 'done', translations: ['rus3'] },
         ]; 
         return fakeWords;
         // return api.get<IDictionaryWord[]>('/dictionaryary/fake-translations', {params: {word}});

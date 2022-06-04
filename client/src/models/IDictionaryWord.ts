@@ -1,5 +1,5 @@
 export interface IDictionaryWord {
-    id: number;
+    id: string;
     word: string;
-    translation: string;
+    translations: string[];
 }

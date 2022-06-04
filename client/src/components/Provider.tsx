@@ -23,31 +23,31 @@ const u = {
 }
 
 const words: IWord[] = [
-    {id: 1, word: 'mention', 
+    {id: '1', word: 'mention', 
     translation: 'упомянуть', 
     status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,},
-    {id: 2, word: 'embed', 
+    {id: '2', word: 'embed', 
     translation: 'встроить', 
     status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 1,  active: true,},
-    {id: 3, word: 'participate', 
+    {id: '3', word: 'participate', 
     translation: 'учавствовать', 
     status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 2,  active: true,},
-    {id: 4, word: 'refuse', 
+    {id: '4', word: 'refuse', 
     translation: 'отказ', 
     status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 3,  active: true,},
-    {id: 5, word: 'climb', 
+    {id: '5', word: 'climb', 
     translation: 'взбираться', 
     status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 2,  active: true,},
-    {id: 6, word: 'occupation', 
+    {id: '6', word: 'occupation', 
     translation: 'род деятельности', 
     status: 'learned', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,},
-    {id: 7, word: 'stuff', 
+    {id: '7', word: 'stuff', 
     translation: 'вещи', 
     status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,},
-    {id: 8, word: 'staff', 
+    {id: '8', word: 'staff', 
     translation: 'персонал', 
     status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,},
-    {id: 9, word: 'particularly', 
+    {id: '9', word: 'particularly', 
     translation: 'в особености', 
     status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: false,},
 ];
@@ -130,9 +130,9 @@ export default function Provider(
 
     const getVocabulary = async () => {
         try {
-            setVocabulary(words);
-            // const response = await VocabularyServoce.getVocabulary();
-            // setVocabulary(response.data);
+            // setVocabulary(words);
+            const response = await VocabularyServoce.getVocabulary();
+            setVocabulary(response.data);
         } catch (error: any) {
             console.log(error.response?.data?.message);
         }
@@ -141,10 +141,10 @@ export default function Provider(
     const addWord = async (word: string, translation: string) => {
         try {
             // const response = await VocabularyServoce.addWord(word, translation);
-            const data: IWord = {id: 10, word, translation, 
+            const data: IWord = {id: String(vocabulary.length), word, translation, 
                 status: 'study', lastSuccessful: null,  attempts: 0, successfulAttempts: 0,  active: true,} ;
             const newVocabulary = [data, ...vocabulary];
-            console.log(newVocabulary);
+            // console.log(newVocabulary);
             setVocabulary(newVocabulary);
         } catch (error: any) {
             console.log(error.response?.data?.message);
@@ -156,10 +156,10 @@ export default function Provider(
             const newVocabulary = [...vocabulary];
             const wordIndex = newVocabulary.findIndex((item) => item.id === id);
             newVocabulary[wordIndex].active = active;
-            const word = newVocabulary[wordIndex];
+            // const word = newVocabulary[wordIndex];
             // await VocabularyServoce.updateWord({...word, active})
     
-            console.log(newVocabulary);
+            // console.log(newVocabulary);
             setVocabulary(newVocabulary);
         } catch (error: any) {
             console.log(error.response?.data?.message);

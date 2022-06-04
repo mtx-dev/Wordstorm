@@ -42,7 +42,7 @@ export default function VocabularySection() {
 
     const handleDictionaryChoice = (id: number) => {
         const choosed = filtredDictionaryList.find((item) => item.id === id)
-        setTranslation(choosed.translation);
+        setTranslation(choosed.translations[0]);
         setIsChoosen(true);
     }
 

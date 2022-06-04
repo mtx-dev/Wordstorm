@@ -21,7 +21,7 @@ export default function DictionaryList({ dicList, onClick }:
 						{dicItem.word}
 					</Col>
 					<Col xs={6}>
-						{dicItem.translation}
+						{dicItem.translations[0]}
 					</Col>
 				</Row>
 			</ListGroup.Item>
