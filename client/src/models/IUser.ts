@@ -1,7 +1,7 @@
 import { ISettings } from './ISettings';
 
 export interface IUser {
-    id:string;
+    id: string;
     email: string;
     isActivated: boolean;
     settings: ISettings;
