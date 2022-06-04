@@ -5,17 +5,18 @@ class VocabularyController {
     async getVocabulary(req, res, next) {
         try {
 			// TODO cheack on norm str
-            const errors = validationResult(req);
-            if(!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Error validation', errors));
+            // const errors = validationResult(req);
+            const {refreshToken} = req.cookies;
+            const userData = await userService.getCurrentUser(refreshToken);
+            
+            if(!userData) {
+                return next(ApiError.UnauthorizedError());
             }
-            const {email, password} = req.body;
-            const userData = await userService.registration(email, password);
+            const vocabulary = await vocabularyService.getAll(userData.id);
 
-            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 3600 * 1000, httpOnly: true})
-            console.log('======== reg');
+            console.log('======== VocabularyController  GET ALL');
 
-            return res.json(userData);
+            return res.json(vocabulary);
         } catch(error) {
             next(error);
         }
@@ -24,12 +25,15 @@ class VocabularyController {
     async addWord(req, res, next) {
         try {
 			// TODO cheack on norm str
-
-            // const {email, password} = req.body;
-            // const userData = await userService.login(email, password);
-            // res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 3600 * 1000, httpOnly: true})
-            // console.log('======== login');
-            // return res.json(userData);
+            const {refreshToken} = req.cookies;
+            const userData = await userService.getCurrentUser(refreshToken);
+            if(!userData) {
+                return next(ApiError.UnauthorizedError());
+            }
+            const {word, transaltion} = req.body;
+            const vocabularyItem = await vocabularyService.add(userData.id, word, transaltion);
+            console.log('======== VocabularyController  addWord');
+            return res.json(vocabularyItem);
         } catch(error) {
             next(error);
         }
@@ -38,11 +42,10 @@ class VocabularyController {
     async update(req, res, next) {
         try {
 			// TODO cheack on norm str
-
-            // const {refreshToken} = req.cookies;
-            // const token = await userService.logout(refreshToken);
-            // res.clearCookie('refreshToken');
-            // console.log('======== logout');
+            const {wordUpdates} = req.body;
+            // TODO chek empty property
+            const updatedWord = await userService.update(wordUpdates);
+            console.log('======== logout');
             // res.json(token);
         } catch(error) {
             next(error);
@@ -52,6 +55,8 @@ class VocabularyController {
 	async updates(req, res, next) {
         try {
 			// TODO cheack on norm str
+            const {words} = req.body;
+            // Pro,ice all or 1 request????
 
             // const {refreshToken} = req.cookies;
             // const token = await userService.logout(refreshToken);
